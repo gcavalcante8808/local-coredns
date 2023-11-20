@@ -1,0 +1,21 @@
+services:
+  coredns:
+    image: coredns/coredns:1.10.1
+    restart: always
+    container_name: coredns
+    environment:
+      DNS_SERVER_1: ${DNS_SERVER1:-tls://208.67.222.222} # OPENDNS
+      DNS_SERVER_2: ${DNS_SERVER2:-tls://1.1.1.2} # Cloudflare
+    command:
+      - -conf
+      - /etc/coredns/Corefile
+    ports:
+        - "127.0.0.253:53:53"
+        - "127.0.0.253:53:53/udp"
+        - "127.0.0.1:9153:9153"
+    volumes:
+        - './Corefile:/etc/coredns/Corefile:z'
+        - './hosts:/etc/hosts:z'
+    logging:
+      driver: journald
+

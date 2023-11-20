@@ -1,0 +1,12 @@
+.:53 {
+    cache
+    hosts {
+        fallthrough
+    }
+    forward . {$DNS_SERVER_1} {$DNS_SERVER_2}
+    log
+    errors
+    auto
+    reload 10s
+    prometheus :9153
+}
